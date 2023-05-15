@@ -26,9 +26,11 @@ export const App = () => {
       if (!colWidths[key]) {
         colWidths[key] = key.length; // Define a largura inicial com o comprimento da chave
       }
-      const length = item[key].length;
-      if (length > colWidths[key]) {
-        colWidths[key] = length; // Atualiza a largura se o valor for maior
+      if (item[key]) {
+        const length = item[key].length;
+        if (length > colWidths[key]) {
+          colWidths[key] = length; // Atualiza a largura se o valor for maior
+        }
       }
     });
   });
@@ -39,13 +41,13 @@ export const App = () => {
 
   json.forEach((item) => {
     const row = Object.keys(colWidths)
-      .map((key) => pad(item[key], colWidths[key]))
+      .map((key) => pad(item[key] || "", colWidths[key]))
       .join(" | ");
     table.push(`| ${row} |`); // Linhas da tabela
   });
 
   function pad(text, width) {
-    return text.padEnd(width, " ");
+    return (text || "").padEnd(width, " ");
   }
 
   const output = table.join("\n");
