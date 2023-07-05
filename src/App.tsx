@@ -53,8 +53,14 @@ export const App = () => {
   const output = table.join("\n");
 
   function handleCopy({ copyType = "table" }) {
-    const itemsString =
-      copyType === "table" ? output : JSON.stringify(json, null, 2);
+    const types = {
+      table: output,
+      json: JSON.stringify(json, null, 2),
+      zephyr: `Given <>\nWhen <>\nThen <>\n\nExamples:\n${output}`,
+    };
+
+    const itemsString = types[copyType];
+
     navigator.clipboard
       .writeText(itemsString)
       .then(() =>
@@ -103,9 +109,16 @@ export const App = () => {
       <div>
         <button
           onClick={() => handleCopy({ copyType: "table" })}
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto m-1 px-5 py-2.5 text-center"
         >
           Copiar Resultado em Tabela
+        </button>
+
+        <button
+          onClick={() => handleCopy({ copyType: "zephyr" })}
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto m-1 px-5 py-2.5 text-center"
+        >
+          Copiar Resultado em Tabela para o Zephyr
         </button>
         <pre>{output}</pre>
       </div>
@@ -115,8 +128,8 @@ export const App = () => {
 
       <div>
         <button
-          onClick={() => handleCopy({ copyType: "JSON" })}
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+          onClick={() => handleCopy({ copyType: "json" })}
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 m-1 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
         >
           Copiar Resultado em JSON
         </button>
